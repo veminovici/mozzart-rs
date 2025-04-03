@@ -1,0 +1,14 @@
+[workspace]
+members = [
+    "mozzart-core",
+    "mozzart-scales"
+]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+authors = ["Vlad Eminovici <veminovici@hotmail.com>"]
+description = "A Rust music theory library"
+license = "MIT"
+repository = "https://github.com/yourusername/mozzart-rs" 

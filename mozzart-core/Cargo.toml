@@ -1,0 +1,10 @@
+[package]
+name = "mozzart-core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Core music theory functionality"
+license.workspace = true
+repository.workspace = true
+
+[dependencies] 

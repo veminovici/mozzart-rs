@@ -1,0 +1,11 @@
+[package]
+name = "mozzart-scales"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Musical scales implementation"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+mozzart-core = { path = "../mozzart-core" } 
