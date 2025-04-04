@@ -2,11 +2,13 @@
 //!
 //! This crate provides fundamental music theory concepts and structures.
 
+pub mod chord;
 pub mod interval;
 pub mod octave;
 pub mod pitch;
 pub mod scale;
 
+pub use chord::{ChordType, ChordPattern};
 pub use interval::Interval;
 pub use octave::Octave;
 pub use pitch::Pitch;
