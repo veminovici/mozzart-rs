@@ -2,6 +2,14 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Interval(u8);
 
+impl Interval {
+    #[inline]
+    pub const fn semitones(&self) -> u8 {
+        self.0
+    }
+    
+}
+
 pub mod constants {
     use super::Interval;
 

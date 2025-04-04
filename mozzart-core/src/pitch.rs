@@ -1,40 +1,58 @@
+use crate::{Interval, Octave};
+
 /// Represents a musical pitch
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Pitch(u8);
 
 impl Pitch {
     #[inline]
-    pub const fn semitone(&self) -> u8 {
+    pub const fn semitones(&self) -> u8 {
         self.0
     }
 
     #[inline]
     pub const fn canonical(&self) -> Pitch {
-        let semitone = self.semitone() % crate::constants::SEMITONES_PER_OCTAVE;
+        let semitone = self.semitones() % crate::constants::SEMITONES_PER_OCTAVE;
         Pitch(semitone)
+    }
+
+    #[inline]
+    pub const fn is_canonical(&self) -> bool {
+        self.semitones() < crate::constants::SEMITONES_PER_OCTAVE
+    }
+
+    #[inline]
+    pub const fn octave(&self) -> Octave {
+        let octave = (self.semitones() / crate::constants::SEMITONES_PER_OCTAVE) as i8 - 1;
+        Octave::new(octave)
+    }
+
+    #[inline]
+    pub const fn transpose(&self, interval: Interval) -> Pitch {
+        Pitch(self.semitones() + interval.semitones())
     }
 }
 
-macro_rules! generate_pitches {
-    ($octave:expr) => {
+macro_rules! generate_octave_pitches {
+    ($octave:literal) => {
         paste::item! {
-            pub const [<C $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + C.semitone());
-            pub const [<CSHARP $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + CSHARP.semitone());
+            pub const [<C $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + C.semitones());
+            pub const [<CSHARP $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + CSHARP.semitones());
             pub const [<DFLAT $octave>]: Pitch = [<CSHARP $octave>];
-            pub const [<D $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + D.semitone());
-            pub const [<DSHARP $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + DSHARP.semitone());
+            pub const [<D $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + D.semitones());
+            pub const [<DSHARP $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + DSHARP.semitones());
             pub const [<EFLAT $octave>]: Pitch = [<DSHARP $octave>];
-            pub const [<E $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + E.semitone());
-            pub const [<F $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + F.semitone());
-            pub const [<FSHARP $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + FSHARP.semitone());
+            pub const [<E $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + E.semitones());
+            pub const [<F $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + F.semitones());
+            pub const [<FSHARP $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + FSHARP.semitones());
             pub const [<GFLAT $octave>]: Pitch = [<FSHARP $octave>];
-            pub const [<G $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + G.semitone());
-            pub const [<GSHARP $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + GSHARP.semitone());
+            pub const [<G $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + G.semitones());
+            pub const [<GSHARP $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + GSHARP.semitones());
             pub const [<AFLAT $octave>]: Pitch = [<GSHARP $octave>];
-            pub const [<A $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + A.semitone());
-            pub const [<ASHARP $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + ASHARP.semitone());
+            pub const [<A $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + A.semitones());
+            pub const [<ASHARP $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + ASHARP.semitones());
             pub const [<BFLAT $octave>]: Pitch = [<ASHARP $octave>];
-            pub const [<B $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * $octave + B.semitone());
+            pub const [<B $octave>]: Pitch = Pitch(crate::constants::SEMITONES_PER_OCTAVE * ($octave + 1) + B.semitones());
 
             pub const [<PITCHES $octave>]: [Pitch; crate::constants::SEMITONES_PER_OCTAVE as usize] = [
                 [<C $octave>], [<CSHARP $octave>], [<D $octave>], [<DSHARP $octave>],
@@ -69,43 +87,53 @@ pub mod constants {
     pub const PITCHES: [Pitch; crate::constants::SEMITONES_PER_OCTAVE as usize] = [
         C, CSHARP, D, DSHARP, E, F, FSHARP, G, GSHARP, A, ASHARP, B
     ];
-    
+
     // Generate pitches for octaves 0-9
-    generate_pitches!(0);
-    generate_pitches!(1);
-    generate_pitches!(2);
-    generate_pitches!(3);
-    generate_pitches!(4);
-    generate_pitches!(5);
-    generate_pitches!(6);
-    generate_pitches!(7);
-    generate_pitches!(8);
-    generate_pitches!(9);
+    generate_octave_pitches!(0);
+    generate_octave_pitches!(1);
+    generate_octave_pitches!(2);
+    generate_octave_pitches!(3);
+    generate_octave_pitches!(4);
+    generate_octave_pitches!(5);
+    generate_octave_pitches!(6);
+    generate_octave_pitches!(7);
+    generate_octave_pitches!(8);
+    generate_octave_pitches!(9);
 }
 
 #[cfg(test)]
 mod tests {
+    use crate::constants::*;
     use super::*;
 
-    fn test_pitches(pitches: [Pitch; crate::constants::SEMITONES_PER_OCTAVE as usize]) {
+    fn test_pitches(pitches: [Pitch; crate::constants::SEMITONES_PER_OCTAVE as usize], octave: Octave) {
         for (i, pitch) in pitches.iter().enumerate() {
-            let canonical = pitch.canonical();
-            assert_eq!(canonical.semitone(), i as u8);
+            assert_eq!(pitch.canonical().semitones(), i as u8);
+            assert_eq!(pitch.octave(), octave);
+            assert_eq!(pitch.is_canonical(), octave.is_canonical());
         }
     }
 
     #[test]
-    fn test_canonical_pitches() {
-        test_pitches(constants::PITCHES);
-        test_pitches(constants::PITCHES0);
-        test_pitches(constants::PITCHES1);
-        test_pitches(constants::PITCHES2);
-        test_pitches(constants::PITCHES3);
-        test_pitches(constants::PITCHES4);
-        test_pitches(constants::PITCHES5);
-        test_pitches(constants::PITCHES6);
-        test_pitches(constants::PITCHES7);
-        test_pitches(constants::PITCHES8);
-        test_pitches(constants::PITCHES9);
+    fn test_all_pitches() {
+        test_pitches(constants::PITCHES, OC);
+        test_pitches(constants::PITCHES0, O0);
+        test_pitches(constants::PITCHES1, O1);
+        test_pitches(constants::PITCHES2, O2);
+        test_pitches(constants::PITCHES3, O3);
+        test_pitches(constants::PITCHES4, O4);
+        test_pitches(constants::PITCHES5, O5);
+        test_pitches(constants::PITCHES6, O6);
+        test_pitches(constants::PITCHES7, O7);
+        test_pitches(constants::PITCHES8, O8);
+        test_pitches(constants::PITCHES9, O9);
     }
-}
+
+    #[test]
+    fn test_transpose() {
+        assert_eq!(C.transpose(PERFECT_UNISON), C);
+        assert_eq!(C.transpose(MAJOR_SECOND), D);
+        assert_eq!(C.transpose(MINOR_THIRD), EFLAT);
+        assert_eq!(C.transpose(PERFECT_FOURTH), F);
+    }
+}        
