@@ -17,4 +17,3 @@ pub mod constants {
     pub use crate::octave::constants::*;
     pub use crate::pitch::constants::*;
 }
-

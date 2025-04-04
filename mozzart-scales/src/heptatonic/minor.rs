@@ -1,5 +1,5 @@
-use mozzart_core::{ScalePattern, ScaleType, Interval};
 use mozzart_core::constants::*;
+use mozzart_core::{Interval, ScalePattern, ScaleType};
 
 pub struct MinorScaleType;
 impl ScaleType for MinorScaleType {}
