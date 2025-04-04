@@ -1,0 +1,11 @@
+[package]
+name = "mozzart-chords"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Chord functionality for the Mozzart music theory library"
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+mozzart-core = { path = "../mozzart-core" } 

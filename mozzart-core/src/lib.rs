@@ -8,7 +8,7 @@ pub mod octave;
 pub mod pitch;
 pub mod scale;
 
-pub use chord::{ChordType, ChordPattern};
+pub use chord::{ChordPattern, ChordType};
 pub use interval::Interval;
 pub use octave::Octave;
 pub use pitch::Pitch;

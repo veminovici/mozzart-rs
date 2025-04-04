@@ -46,4 +46,4 @@ fn interval_benchmarks(c: &mut Criterion) {
 }
 
 criterion_group!(benches, interval_benchmarks);
-criterion_main!(benches); 
+criterion_main!(benches);

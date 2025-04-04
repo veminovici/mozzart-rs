@@ -117,5 +117,3 @@ pub trait ChordPattern {
     /// This provides a concrete instance of the chord type.
     const TYPE: Self::ChordTyp;
 }
-
-

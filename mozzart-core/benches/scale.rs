@@ -1,7 +1,7 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use mozzart_core::{Interval, ScalePattern, ScaleType};
-use mozzart_core::pitch::constants::*;
 use mozzart_core::interval::constants::*;
+use mozzart_core::pitch::constants::*;
+use mozzart_core::{Interval, ScalePattern, ScaleType};
 
 struct MajorScaleType;
 impl ScaleType for MajorScaleType {}
@@ -54,4 +54,4 @@ fn scale_benchmarks(c: &mut Criterion) {
 }
 
 criterion_group!(benches, scale_benchmarks);
-criterion_main!(benches); 
+criterion_main!(benches);

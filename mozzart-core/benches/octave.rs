@@ -40,4 +40,4 @@ fn octave_benchmarks(c: &mut Criterion) {
 }
 
 criterion_group!(benches, octave_benchmarks);
-criterion_main!(benches); 
+criterion_main!(benches);

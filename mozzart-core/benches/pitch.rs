@@ -1,6 +1,6 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use mozzart_core::pitch::constants::*;
 use mozzart_core::interval::constants::*;
+use mozzart_core::pitch::constants::*;
 
 fn pitch_benchmarks(c: &mut Criterion) {
     let mut group = c.benchmark_group("Pitch Operations");
@@ -65,4 +65,4 @@ fn pitch_benchmarks(c: &mut Criterion) {
 }
 
 criterion_group!(benches, pitch_benchmarks);
-criterion_main!(benches); 
+criterion_main!(benches);
