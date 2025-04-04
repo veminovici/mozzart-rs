@@ -1,9 +1,3 @@
-//! Musical scales implementation
-//!
-//! This crate provides implementations of various musical scales and modes.
+pub mod heptatonic;
 
-pub mod mode;
-pub mod scale;
-
-pub use mode::Mode;
-pub use scale::Scale;
+pub use heptatonic::*;

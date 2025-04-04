@@ -29,6 +29,12 @@ The project uses:
 - rustfmt for code formatting
 - Standard Rust tooling
 
+## Test
+
+```bash
+act --container-architecture linux/amd64 -W .github/workflows/ci.yml
+```
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details. 
