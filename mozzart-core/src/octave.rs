@@ -64,6 +64,7 @@
 //! Non-canonical: O0 (0), O1 (1), O2 (2), etc.
 //! ```
 
+use std::fmt;
 /// Represents a musical octave.
 ///
 /// An octave is the interval between one musical pitch and another with double its frequency.
@@ -123,6 +124,12 @@ impl Octave {
     #[inline]
     pub const fn is_canonical(&self) -> bool {
         self.0 < 0
+    }
+}
+
+impl fmt::Display for Octave {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.0)
     }
 }
 

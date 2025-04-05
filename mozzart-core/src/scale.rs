@@ -105,6 +105,7 @@
 //! Blues: Expressive, soulful sound
 //! ```
 
+use std::fmt;
 use std::marker::PhantomData;
 
 use crate::{Interval, Pitch};
@@ -420,10 +421,22 @@ impl<S: ScaleType> Scale<S> {
         &self.pitches
     }
 
+    /// Returns the root pitch of the scale.
+    #[inline]
+    pub fn root(&self) -> Pitch {
+        self.pitches[0]
+    }
+
     /// Returns the name of the scale type.
     #[inline]
     pub fn name(&self) -> &'static str {
         S::name()
+    }
+}
+
+impl<S: ScaleType> fmt::Display for Scale<S> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{} {}", self.root(), self.name())
     }
 }
 
@@ -433,11 +446,31 @@ mod tests {
     use crate::constants::*;
     use crate::pitch::constants::*;
 
+    struct MyScaleType;
+    impl ScaleType for MyScaleType {
+        fn name() -> &'static str {
+            "my scale"
+        }
+    }
+
+    struct MyScalePattern;
+    impl ScalePattern for MyScalePattern {
+        type Pattern = [Interval; 2];
+        const PATTERN: Self::Pattern = [MAJOR_SECOND, PERFECT_FOURTH];
+        type ScaleTyp = MyScaleType;
+    }
+
     #[test]
     fn test_apply_pattern() {
         let pattern = [MAJOR_SECOND, PERFECT_FOURTH];
         let root = C4;
         let scale = apply_pattern(root, pattern);
         assert_eq!(scale, [D4, F4]);
+    }
+
+    #[test]
+    fn test_scale_display() {
+        let scale = Scale::<MyScaleType>::new(vec![C4, D4]);
+        assert_eq!(scale.to_string(), "C4 my scale");
     }
 }

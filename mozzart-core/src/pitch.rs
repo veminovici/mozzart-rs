@@ -93,6 +93,7 @@
 //! ```
 
 use crate::{Interval, Octave};
+use std::fmt;
 
 /// Represents a musical pitch.
 ///
@@ -293,6 +294,26 @@ pub mod constants {
     generate_octave_pitches!(9);
 }
 
+const PITCH_NAMES: [&str; crate::constants::SEMITONES_PER_OCTAVE as usize] = [
+    "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B",
+];
+
+impl fmt::Display for Pitch {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let canonical = self.canonical();
+        if self.is_canonical() {
+            write!(f, "{}", PITCH_NAMES[canonical.semitones() as usize])
+        } else {
+            write!(
+                f,
+                "{}{}",
+                PITCH_NAMES[canonical.semitones() as usize],
+                self.octave()
+            )
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -330,5 +351,34 @@ mod tests {
         assert_eq!(C.transpose(MAJOR_SECOND), D);
         assert_eq!(C.transpose(MINOR_THIRD), EFLAT);
         assert_eq!(C.transpose(PERFECT_FOURTH), F);
+    }
+
+    #[test]
+    fn test_display() {
+        assert_eq!(C.to_string(), "C");
+        assert_eq!(CSHARP.to_string(), "C#");
+        assert_eq!(D.to_string(), "D");
+        assert_eq!(DSHARP.to_string(), "D#");
+        assert_eq!(E.to_string(), "E");
+        assert_eq!(F.to_string(), "F");
+        assert_eq!(FSHARP.to_string(), "F#");
+        assert_eq!(G.to_string(), "G");
+        assert_eq!(GSHARP.to_string(), "G#");
+        assert_eq!(A.to_string(), "A");
+        assert_eq!(ASHARP.to_string(), "A#");
+        assert_eq!(B.to_string(), "B");
+
+        assert_eq!(C4.to_string(), "C4");
+        assert_eq!(CSHARP4.to_string(), "C#4");
+        assert_eq!(D4.to_string(), "D4");
+        assert_eq!(DSHARP4.to_string(), "D#4");
+        assert_eq!(E4.to_string(), "E4");
+        assert_eq!(F4.to_string(), "F4");
+        assert_eq!(FSHARP4.to_string(), "F#4");
+        assert_eq!(G4.to_string(), "G4");
+        assert_eq!(GSHARP4.to_string(), "G#4");
+        assert_eq!(A4.to_string(), "A4");
+        assert_eq!(ASHARP4.to_string(), "A#4");
+        assert_eq!(B4.to_string(), "B4");
     }
 }
