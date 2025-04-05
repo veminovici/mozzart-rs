@@ -32,7 +32,11 @@ use mozzart_core::{Interval, ScalePattern, ScaleType};
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct MajorScaleType;
 
-impl ScaleType for MajorScaleType {}
+impl ScaleType for MajorScaleType {
+    fn name() -> &'static str {
+        "major"
+    }
+}
 
 /// The pattern for a major scale.
 ///

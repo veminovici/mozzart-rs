@@ -33,7 +33,11 @@ use mozzart_core::{Interval, ScalePattern, ScaleType};
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct HarmonicMinorScaleType;
 
-impl ScaleType for HarmonicMinorScaleType {}
+impl ScaleType for HarmonicMinorScaleType {
+    fn name() -> &'static str {
+        "harmonic minor"
+    }
+}
 
 /// The pattern for a harmonic minor scale.
 ///

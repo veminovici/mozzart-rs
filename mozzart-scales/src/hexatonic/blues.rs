@@ -2,7 +2,11 @@ use mozzart_core::constants::*;
 use mozzart_core::{Interval, ScalePattern, ScaleType};
 
 pub struct BluesScaleType;
-impl ScaleType for BluesScaleType {}
+impl ScaleType for BluesScaleType {
+    fn name() -> &'static str {
+        "blues"
+    }
+}
 
 pub struct BluesScalePattern;
 impl ScalePattern for BluesScalePattern {

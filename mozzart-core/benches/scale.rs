@@ -4,7 +4,11 @@ use mozzart_core::pitch::constants::*;
 use mozzart_core::{Interval, ScalePattern, ScaleType};
 
 struct MajorScaleType;
-impl ScaleType for MajorScaleType {}
+impl ScaleType for MajorScaleType {
+    fn name() -> &'static str {
+        "major"
+    }
+}
 
 struct MajorScalePattern;
 impl ScalePattern for MajorScalePattern {

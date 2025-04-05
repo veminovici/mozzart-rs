@@ -46,7 +46,11 @@ use mozzart_core::{Interval, ScalePattern, ScaleType};
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct MelodicMinorScaleType;
 
-impl ScaleType for MelodicMinorScaleType {}
+impl ScaleType for MelodicMinorScaleType {
+    fn name() -> &'static str {
+        "melodic minor"
+    }
+}
 
 /// The pattern for a melodic minor scale.
 ///

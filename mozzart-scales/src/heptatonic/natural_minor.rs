@@ -32,7 +32,11 @@ use mozzart_core::{Interval, ScalePattern, ScaleType};
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct NaturalMinorScaleType;
 
-impl ScaleType for NaturalMinorScaleType {}
+impl ScaleType for NaturalMinorScaleType {
+    fn name() -> &'static str {
+        "natural minor"
+    }
+}
 
 /// The pattern for a natural minor scale.
 ///

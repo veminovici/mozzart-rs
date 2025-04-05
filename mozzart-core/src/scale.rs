@@ -27,7 +27,11 @@
 //! use mozzart_core::constants::*;
 //!
 //! pub struct MajorScaleType;
-//! impl ScaleType for MajorScaleType {}
+//! impl ScaleType for MajorScaleType {
+//!     fn name() -> &'static str {
+//!         "major"
+//!     }
+//! }
 //!
 //! // Define a major scale pattern
 //! struct MajorScalePattern;
@@ -116,12 +120,22 @@ use crate::{Interval, Pitch};
 /// use mozzart_core::scale::ScaleType;
 ///
 /// struct MajorScaleType;
-/// impl ScaleType for MajorScaleType {}
+/// impl ScaleType for MajorScaleType {
+///     fn name() -> &'static str {
+///         "major"
+///     }
+/// }
 ///
 /// struct MinorScaleType;
-/// impl ScaleType for MinorScaleType {}
+/// impl ScaleType for MinorScaleType {
+///     fn name() -> &'static str {
+///         "minor"
+///     }
+/// }
 /// ```
-pub trait ScaleType {}
+pub trait ScaleType {
+    fn name() -> &'static str;
+}
 
 /// A trait representing a musical scale pattern.
 ///
@@ -135,7 +149,11 @@ pub trait ScaleType {}
 /// use mozzart_core::constants::*;
 ///
 /// pub struct MajorScaleType;
-/// impl ScaleType for MajorScaleType {}
+/// impl ScaleType for MajorScaleType {
+///     fn name() -> &'static str {
+///         "major"
+///     }
+/// }
 ///
 /// struct MajorScalePattern;
 /// impl ScalePattern for MajorScalePattern {
@@ -185,7 +203,11 @@ pub trait ScalePattern {
     /// use mozzart_core::constants::*;
     ///
     /// pub struct MajorScaleType;
-    /// impl ScaleType for MajorScaleType {}
+    /// impl ScaleType for MajorScaleType {
+    ///     fn name() -> &'static str {
+    ///         "major"
+    ///     }
+    /// }
     ///
     /// pub struct MajorScalePattern;
     /// impl ScalePattern for MajorScalePattern {
@@ -259,7 +281,11 @@ where
 ///
 /// // Define a major scale type
 /// struct MajorScaleType;
-/// impl ScaleType for MajorScaleType {}
+/// impl ScaleType for MajorScaleType {
+///     fn name() -> &'static str {
+///         "major"
+///     }
+/// }
 ///
 /// // Create a C major scale
 /// let c_major = Scale::<MajorScaleType>::new(vec![C4, D4, E4, F4, G4, A4, B4]);
@@ -282,7 +308,11 @@ where
 ///
 /// // Define a minor scale type
 /// struct MinorScaleType;
-/// impl ScaleType for MinorScaleType {}
+/// impl ScaleType for MinorScaleType {
+///     fn name() -> &'static str {
+///         "minor"
+///     }
+/// }
 ///
 /// // Create an A minor scale
 /// let a_minor = Scale::<MinorScaleType>::new(vec![A4, B4, C5, D5, E5, F5, G5]);
@@ -342,7 +372,11 @@ impl<S: ScaleType> Scale<S> {
     /// use mozzart_core::pitch::constants::*;
     ///
     /// struct MajorScaleType;
-    /// impl ScaleType for MajorScaleType {}
+    /// impl ScaleType for MajorScaleType {
+    ///     fn name() -> &'static str {
+    ///         "major"
+    ///     }
+    /// }
     ///
     /// // Create a G major scale
     /// let g_major = Scale::<MajorScaleType>::new(vec![G4, A4, B4, C5, D5, E5, FSHARP5]);
@@ -366,7 +400,11 @@ impl<S: ScaleType> Scale<S> {
     /// use mozzart_core::pitch::constants::*;
     ///
     /// struct MajorScaleType;
-    /// impl ScaleType for MajorScaleType {}
+    /// impl ScaleType for MajorScaleType {
+    ///     fn name() -> &'static str {
+    ///         "major"
+    ///     }
+    /// }
     ///
     /// // Create a D major scale
     /// let d_major = Scale::<MajorScaleType>::new(vec![D4, E4, FSHARP4, G4, A4, B4, CSHARP5]);
@@ -380,6 +418,12 @@ impl<S: ScaleType> Scale<S> {
     #[inline]
     pub fn pitches(&self) -> &[Pitch] {
         &self.pitches
+    }
+
+    /// Returns the name of the scale type.
+    #[inline]
+    pub fn name(&self) -> &'static str {
+        S::name()
     }
 }
 

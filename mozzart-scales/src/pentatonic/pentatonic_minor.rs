@@ -2,7 +2,11 @@ use mozzart_core::constants::*;
 use mozzart_core::{Interval, ScalePattern, ScaleType};
 
 pub struct PentatonicMinorScaleType;
-impl ScaleType for PentatonicMinorScaleType {}
+impl ScaleType for PentatonicMinorScaleType {
+    fn name() -> &'static str {
+        "pentatonic minor"
+    }
+}
 
 pub struct PentatonicMinorScalePattern;
 impl ScalePattern for PentatonicMinorScalePattern {
