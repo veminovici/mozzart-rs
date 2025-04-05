@@ -93,14 +93,19 @@ mod tests {
     #[test]
     fn test_melodic_minor_scale() {
         let scale = MelodicMinorScalePattern::apply(C4);
-        let ascending = scale.pitches();
-        assert_eq!(ascending.len(), 7);
-        assert_eq!(ascending[0], C4);
-        assert_eq!(ascending[1], D4);
-        assert_eq!(ascending[2], EFLAT4);
-        assert_eq!(ascending[3], F4);
-        assert_eq!(ascending[4], G4);
-        assert_eq!(ascending[5], A4);
-        assert_eq!(ascending[6], B4);
+
+        let pitches = scale.pitches();
+        assert_eq!(pitches.len(), 7);
+        assert_eq!(pitches[0], C4);
+        assert_eq!(pitches[1], D4);
+        assert_eq!(pitches[2], EFLAT4);
+        assert_eq!(pitches[3], F4);
+        assert_eq!(pitches[4], G4);
+        assert_eq!(pitches[5], A4);
+        assert_eq!(pitches[6], B4);
+
+        assert_eq!(scale.root(), C4);
+        assert_eq!(scale.name(), "melodic minor");
+        assert_eq!(scale.to_string(), "C4 melodic minor");
     }
 }

@@ -31,6 +31,7 @@ mod tests {
     #[test]
     fn test_blues_scale() {
         let scale = BluesScalePattern::apply(C4);
+
         let pitches = scale.pitches();
         assert_eq!(pitches.len(), 6);
         assert_eq!(pitches[0], C4);
@@ -39,5 +40,9 @@ mod tests {
         assert_eq!(pitches[3], GFLAT4);
         assert_eq!(pitches[4], G4);
         assert_eq!(pitches[5], BFLAT4);
+
+        assert_eq!(scale.root(), C4);
+        assert_eq!(scale.name(), "blues");
+        assert_eq!(scale.to_string(), "C4 blues");
     }
 }

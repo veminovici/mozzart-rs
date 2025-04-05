@@ -30,6 +30,7 @@ mod tests {
     #[test]
     fn test_pentatonic_minor_scale() {
         let scale = PentatonicMinorScalePattern::apply(C4);
+
         let pitches = scale.pitches();
         assert_eq!(pitches.len(), 5);
         assert_eq!(pitches[0], C4);
@@ -37,5 +38,9 @@ mod tests {
         assert_eq!(pitches[2], F4);
         assert_eq!(pitches[3], G4);
         assert_eq!(pitches[4], BFLAT4);
+
+        assert_eq!(scale.root(), C4);
+        assert_eq!(scale.name(), "pentatonic minor");
+        assert_eq!(scale.to_string(), "C4 pentatonic minor");
     }
 }

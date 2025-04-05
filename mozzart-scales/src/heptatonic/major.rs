@@ -71,6 +71,7 @@ mod tests {
     #[test]
     fn test_major_scale() {
         let scale = MajorScalePattern::apply(C4);
+
         let pitches = scale.pitches();
         assert_eq!(pitches.len(), 7);
         assert_eq!(pitches[0], C4);
@@ -80,6 +81,10 @@ mod tests {
         assert_eq!(pitches[4], G4);
         assert_eq!(pitches[5], A4);
         assert_eq!(pitches[6], B4);
+
+        assert_eq!(scale.root(), C4);
+        assert_eq!(scale.name(), "major");
+        assert_eq!(scale.to_string(), "C4 major");
     }
 
     #[test]
