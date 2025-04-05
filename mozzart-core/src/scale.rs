@@ -43,7 +43,6 @@
 //!         MINOR_SECOND,
 //!     ];
 //!     type ScaleTyp = MajorScaleType;
-//!     const TYPE: Self::ScaleTyp = MajorScaleType;
 //! }
 //!
 //! // Apply the scale to a root note
@@ -143,7 +142,6 @@ pub trait ScaleType {}
 ///         MINOR_SECOND,
 ///     ];
 ///     type ScaleTyp = MajorScaleType;
-///     const TYPE: Self::ScaleTyp = MajorScaleType;
 /// }
 /// ```
 pub trait ScalePattern {
@@ -155,9 +153,6 @@ pub trait ScalePattern {
 
     /// The type of the scale.
     type ScaleTyp: ScaleType;
-
-    /// The scale type instance.
-    const TYPE: Self::ScaleTyp;
 
     /// Applies the scale pattern to a root pitch.
     ///
@@ -186,7 +181,6 @@ pub trait ScalePattern {
     ///         MINOR_SECOND,
     ///     ];
     ///     type ScaleTyp = MajorScaleType;
-    ///     const TYPE: Self::ScaleTyp = MajorScaleType;
     /// }
     ///
     /// let c_major = MajorScalePattern::apply(C4);

@@ -19,7 +19,6 @@ impl ScalePattern for MajorScalePattern {
         MINOR_SECOND,
     ];
     type ScaleTyp = MajorScaleType;
-    const TYPE: Self::ScaleTyp = MajorScaleType;
 }
 
 fn scale_benchmarks(c: &mut Criterion) {

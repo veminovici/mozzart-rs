@@ -18,5 +18,4 @@ impl ScalePattern for MajorScalePattern {
     ];
 
     type ScaleTyp = MajorScaleType;
-    const TYPE: Self::ScaleTyp = MajorScaleType;
 }

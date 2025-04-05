@@ -95,7 +95,6 @@ pub trait ChordType {}
 ///     type Pattern = [Interval; 2];
 ///     const PATTERN: Self::Pattern = [MAJOR_THIRD, PERFECT_FIFTH];
 ///     type ChordTyp = MajorTriadType;
-///     const TYPE: Self::ChordTyp = MajorTriadType;
 /// }
 /// ```
 pub trait ChordPattern {
@@ -112,8 +111,4 @@ pub trait ChordPattern {
     /// This associates the pattern with a specific chord type
     /// (e.g., major, minor, diminished).
     type ChordTyp: ChordType;
-
-    /// The chord type instance.
-    /// This provides a concrete instance of the chord type.
-    const TYPE: Self::ChordTyp;
 }
