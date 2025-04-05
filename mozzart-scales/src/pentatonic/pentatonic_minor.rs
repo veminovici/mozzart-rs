@@ -26,11 +26,12 @@ mod tests {
     #[test]
     fn test_pentatonic_minor_scale() {
         let scale = PentatonicMinorScalePattern::apply(C4);
-        assert_eq!(scale.len(), 5);
-        assert_eq!(scale[0], C4);
-        assert_eq!(scale[1], EFLAT4);
-        assert_eq!(scale[2], F4);
-        assert_eq!(scale[3], G4);
-        assert_eq!(scale[4], BFLAT4);
+        let pitches = scale.pitches();
+        assert_eq!(pitches.len(), 5);
+        assert_eq!(pitches[0], C4);
+        assert_eq!(pitches[1], EFLAT4);
+        assert_eq!(pitches[2], F4);
+        assert_eq!(pitches[3], G4);
+        assert_eq!(pitches[4], BFLAT4);
     }
 }

@@ -47,22 +47,22 @@
 //!
 //! // Apply the scale to a root note
 //! let c_major = MajorScalePattern::apply(C4);
-//! assert_eq!(c_major.len(), 7);
-//! assert_eq!(c_major[0], C4);
-//! assert_eq!(c_major[1], D4);
-//! assert_eq!(c_major[2], E4);
-//! assert_eq!(c_major[3], F4);
-//! assert_eq!(c_major[4], G4);
-//! assert_eq!(c_major[5], A4);
-//! assert_eq!(c_major[6], B4);
+//! let pitches = c_major.pitches();
+//! assert_eq!(pitches.len(), 7);
+//! assert_eq!(pitches[0], C4);
+//! assert_eq!(pitches[1], D4);
+//! assert_eq!(pitches[2], E4);
+//! assert_eq!(pitches[3], F4);
+//! assert_eq!(pitches[4], G4);
+//! assert_eq!(pitches[5], A4);
+//! assert_eq!(pitches[6], B4);
 //! // ... and so on
 //! ```
 //!
 //! Working with different scale types:
 //! ```rust
 //! use mozzart_core::scale::{ScalePattern, ScaleType};
-//! use mozzart_core::pitch::constants::*;
-//! use mozzart_core::interval::constants::*;
+//! use mozzart_core::constants::*;
 //!
 //! ```
 //!
@@ -100,6 +100,8 @@
 //! Pentatonic: Simple, versatile sound
 //! Blues: Expressive, soulful sound
 //! ```
+
+use std::marker::PhantomData;
 
 use crate::{Interval, Pitch};
 
@@ -151,14 +153,15 @@ pub trait ScaleType {}
 /// }
 ///
 /// let scale = MajorScalePattern::apply(C4);
-/// assert_eq!(scale.len(), 7);
-/// assert_eq!(scale[0], C4);
-/// assert_eq!(scale[1], D4);
-/// assert_eq!(scale[2], E4);
-/// assert_eq!(scale[3], F4);
-/// assert_eq!(scale[4], G4);
-/// assert_eq!(scale[5], A4);
-/// assert_eq!(scale[6], B4);
+/// let pitches = scale.pitches();
+/// assert_eq!(pitches.len(), 7);
+/// assert_eq!(pitches[0], C4);
+/// assert_eq!(pitches[1], D4);
+/// assert_eq!(pitches[2], E4);
+/// assert_eq!(pitches[3], F4);
+/// assert_eq!(pitches[4], G4);
+/// assert_eq!(pitches[5], A4);
+/// assert_eq!(pitches[6], B4);
 /// ```
 pub trait ScalePattern {
     /// The type of the interval pattern.
@@ -200,18 +203,20 @@ pub trait ScalePattern {
     /// }
     ///
     /// let scale = MajorScalePattern::apply(C4);
-    /// assert_eq!(scale.len(), 7);
-    /// assert_eq!(scale[0], C4);
-    /// assert_eq!(scale[1], D4);
-    /// assert_eq!(scale[2], E4);
-    /// assert_eq!(scale[3], F4);
-    /// assert_eq!(scale[4], G4);
-    /// assert_eq!(scale[5], A4);
-    /// assert_eq!(scale[6], B4);
+    /// let pitches = scale.pitches();
+    /// assert_eq!(pitches.len(), 7);
+    /// assert_eq!(pitches[0], C4);
+    /// assert_eq!(pitches[1], D4);
+    /// assert_eq!(pitches[2], E4);
+    /// assert_eq!(pitches[3], F4);
+    /// assert_eq!(pitches[4], G4);
+    /// assert_eq!(pitches[5], A4);
+    /// assert_eq!(pitches[6], B4);
     /// ```
     #[inline]
-    fn apply(root: Pitch) -> Vec<Pitch> {
-        apply_pattern(root, Self::PATTERN)
+    fn apply(root: Pitch) -> Scale<Self::ScaleTyp> {
+        let pitches = apply_pattern(root, Self::PATTERN);
+        Scale::<Self::ScaleTyp>::new(pitches)
     }
 }
 
@@ -236,6 +241,146 @@ where
     }
 
     pitches
+}
+
+/// A musical scale.
+///
+/// A scale is a sequence of pitches ordered by pitch height, defined by a specific
+/// pattern of intervals from a root note. The `Scale` struct represents a scale
+/// with a specific type (e.g., major, minor) and contains the sequence of pitches
+/// that make up the scale.
+///
+/// # Examples
+///
+/// Creating and using a major scale:
+/// ```rust
+/// use mozzart_core::scale::*;
+/// use mozzart_core::pitch::constants::*;
+///
+/// // Define a major scale type
+/// struct MajorScaleType;
+/// impl ScaleType for MajorScaleType {}
+///
+/// // Create a C major scale
+/// let c_major = Scale::<MajorScaleType>::new(vec![C4, D4, E4, F4, G4, A4, B4]);
+///
+/// // Get the pitches of the scale
+/// let pitches = c_major.pitches();
+/// assert_eq!(pitches[0], C4);
+/// assert_eq!(pitches[1], D4);
+/// assert_eq!(pitches[2], E4);
+/// assert_eq!(pitches[3], F4);
+/// assert_eq!(pitches[4], G4);
+/// assert_eq!(pitches[5], A4);
+/// assert_eq!(pitches[6], B4);
+/// ```
+///
+/// Working with different scale types:
+/// ```rust
+/// use mozzart_core::scale::*;
+/// use mozzart_core::pitch::constants::*;
+///
+/// // Define a minor scale type
+/// struct MinorScaleType;
+/// impl ScaleType for MinorScaleType {}
+///
+/// // Create an A minor scale
+/// let a_minor = Scale::<MinorScaleType>::new(vec![A4, B4, C5, D5, E5, F5, G5]);
+///
+/// // Get the pitches of the scale
+/// let pitches = a_minor.pitches();
+/// assert_eq!(pitches[0], A4);
+/// assert_eq!(pitches[1], B4);
+/// assert_eq!(pitches[2], C5);
+/// assert_eq!(pitches[3], D5);
+/// assert_eq!(pitches[4], E5);
+/// assert_eq!(pitches[5], F5);
+/// assert_eq!(pitches[6], G5);
+/// ```
+///
+/// # Musical Concepts
+///
+/// ## Scale Structure
+/// A scale is defined by:
+/// - A root note (the starting pitch)
+/// - A pattern of intervals from the root
+/// - A specific scale type (e.g., major, minor)
+///
+/// ```text
+/// C Major Scale Structure:
+/// Root: C4
+/// Pattern: W W H W W W H (whole and half steps)
+/// Pitches: C4 D4 E4 F4 G4 A4 B4
+/// ```
+///
+/// ## Scale Types
+/// Different scale types have different interval patterns:
+/// ```text
+/// Major Scale:      W W H W W W H
+/// Natural Minor:    W H W W H W W
+/// Harmonic Minor:   W H W W H WH H
+/// Melodic Minor:    W H W W W W H
+/// ```
+pub struct Scale<S: ScaleType> {
+    /// The sequence of pitches that make up the scale.
+    pitches: Vec<Pitch>,
+    /// A phantom data marker to associate the scale with its type.
+    typ: PhantomData<S>,
+}
+
+impl<S: ScaleType> Scale<S> {
+    /// Creates a new scale from a sequence of pitches.
+    ///
+    /// # Arguments
+    ///
+    /// * `pitches` - A vector of pitches that make up the scale.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mozzart_core::scale::*;
+    /// use mozzart_core::pitch::constants::*;
+    ///
+    /// struct MajorScaleType;
+    /// impl ScaleType for MajorScaleType {}
+    ///
+    /// // Create a G major scale
+    /// let g_major = Scale::<MajorScaleType>::new(vec![G4, A4, B4, C5, D5, E5, FSHARP5]);
+    /// assert_eq!(g_major.pitches()[0], G4);
+    /// assert_eq!(g_major.pitches()[6], FSHARP5);
+    /// ```
+    #[inline]
+    pub const fn new(pitches: Vec<Pitch>) -> Self {
+        Self {
+            pitches,
+            typ: PhantomData,
+        }
+    }
+
+    /// Returns a reference to the sequence of pitches in the scale.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mozzart_core::scale::*;
+    /// use mozzart_core::pitch::constants::*;
+    ///
+    /// struct MajorScaleType;
+    /// impl ScaleType for MajorScaleType {}
+    ///
+    /// // Create a D major scale
+    /// let d_major = Scale::<MajorScaleType>::new(vec![D4, E4, FSHARP4, G4, A4, B4, CSHARP5]);
+    ///
+    /// // Get the pitches
+    /// let pitches = d_major.pitches();
+    /// assert_eq!(pitches[0], D4);
+    /// assert_eq!(pitches[2], FSHARP4);
+    /// assert_eq!(pitches[6], CSHARP5);
+    /// ```
+    #[inline]
+    pub fn pitches(&self) -> &[Pitch] {
+        &self.pitches
+    }
 }
 
 #[cfg(test)]
