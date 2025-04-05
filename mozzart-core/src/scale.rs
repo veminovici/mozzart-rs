@@ -34,21 +34,27 @@
 //! impl ScalePattern for MajorScalePattern {
 //!     type Pattern = [Interval; 7];
 //!     const PATTERN: Self::Pattern = [
+//!         PERFECT_UNISON,
 //!         MAJOR_SECOND,
-//!         MAJOR_SECOND,
-//!         MINOR_SECOND,
-//!         MAJOR_SECOND,
-//!         MAJOR_SECOND,
-//!         MAJOR_SECOND,
-//!         MINOR_SECOND,
+//!         MAJOR_THIRD,
+//!         PERFECT_FOURTH,
+//!         PERFECT_FIFTH,
+//!         MAJOR_SIXTH,
+//!         MAJOR_SEVENTH,
 //!     ];
 //!     type ScaleTyp = MajorScaleType;
 //! }
 //!
 //! // Apply the scale to a root note
 //! let c_major = MajorScalePattern::apply(C4);
-//! assert_eq!(c_major[0], D4);
-//! assert_eq!(c_major[1], E4);
+//! assert_eq!(c_major.len(), 7);
+//! assert_eq!(c_major[0], C4);
+//! assert_eq!(c_major[1], D4);
+//! assert_eq!(c_major[2], E4);
+//! assert_eq!(c_major[3], F4);
+//! assert_eq!(c_major[4], G4);
+//! assert_eq!(c_major[5], A4);
+//! assert_eq!(c_major[6], B4);
 //! // ... and so on
 //! ```
 //!
@@ -133,16 +139,26 @@ pub trait ScaleType {}
 /// impl ScalePattern for MajorScalePattern {
 ///     type Pattern = [Interval; 7];
 ///     const PATTERN: Self::Pattern = [
+///         PERFECT_UNISON,
 ///         MAJOR_SECOND,
-///         MAJOR_SECOND,
-///         MINOR_SECOND,
-///         MAJOR_SECOND,
-///         MAJOR_SECOND,
-///         MAJOR_SECOND,
-///         MINOR_SECOND,
+///         MAJOR_THIRD,
+///         PERFECT_FOURTH,
+///         PERFECT_FIFTH,
+///         MAJOR_SIXTH,
+///         MAJOR_SEVENTH,
 ///     ];
 ///     type ScaleTyp = MajorScaleType;
 /// }
+///
+/// let scale = MajorScalePattern::apply(C4);
+/// assert_eq!(scale.len(), 7);
+/// assert_eq!(scale[0], C4);
+/// assert_eq!(scale[1], D4);
+/// assert_eq!(scale[2], E4);
+/// assert_eq!(scale[3], F4);
+/// assert_eq!(scale[4], G4);
+/// assert_eq!(scale[5], A4);
+/// assert_eq!(scale[6], B4);
 /// ```
 pub trait ScalePattern {
     /// The type of the interval pattern.
@@ -172,20 +188,26 @@ pub trait ScalePattern {
     /// impl ScalePattern for MajorScalePattern {
     ///     type Pattern = [Interval; 7];
     ///     const PATTERN: Self::Pattern = [
+    ///         PERFECT_UNISON,
     ///         MAJOR_SECOND,
-    ///         MAJOR_SECOND,
-    ///         MINOR_SECOND,
-    ///         MAJOR_SECOND,
-    ///         MAJOR_SECOND,
-    ///         MAJOR_SECOND,
-    ///         MINOR_SECOND,
+    ///         MAJOR_THIRD,
+    ///         PERFECT_FOURTH,
+    ///         PERFECT_FIFTH,
+    ///         MAJOR_SIXTH,
+    ///         MAJOR_SEVENTH,
     ///     ];
     ///     type ScaleTyp = MajorScaleType;
     /// }
     ///
-    /// let c_major = MajorScalePattern::apply(C4);
-    /// assert_eq!(c_major[0], D4);
-    /// assert_eq!(c_major[1], E4);
+    /// let scale = MajorScalePattern::apply(C4);
+    /// assert_eq!(scale.len(), 7);
+    /// assert_eq!(scale[0], C4);
+    /// assert_eq!(scale[1], D4);
+    /// assert_eq!(scale[2], E4);
+    /// assert_eq!(scale[3], F4);
+    /// assert_eq!(scale[4], G4);
+    /// assert_eq!(scale[5], A4);
+    /// assert_eq!(scale[6], B4);
     /// ```
     #[inline]
     fn apply(root: Pitch) -> Vec<Pitch> {
@@ -207,11 +229,10 @@ where
     P: IntoIterator<Item = Interval>,
 {
     let mut pitches = Vec::new();
-    let mut current = root;
 
     for interval in pattern.into_iter() {
-        current = current.transpose(interval);
-        pitches.push(current);
+        let pitch = root.transpose(interval);
+        pitches.push(pitch);
     }
 
     pitches
@@ -228,6 +249,6 @@ mod tests {
         let pattern = [MAJOR_SECOND, PERFECT_FOURTH];
         let root = C4;
         let scale = apply_pattern(root, pattern);
-        assert_eq!(scale, [D4, G4]);
+        assert_eq!(scale, [D4, F4]);
     }
 }

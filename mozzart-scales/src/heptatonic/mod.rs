@@ -1,5 +1,9 @@
+pub mod harmonic_minor;
 pub mod major;
-pub mod minor;
+pub mod melodic_minor;
+pub mod natural_minor;
 
+pub use harmonic_minor::*;
 pub use major::*;
-pub use minor::*;
+pub use melodic_minor::*;
+pub use natural_minor::*;
