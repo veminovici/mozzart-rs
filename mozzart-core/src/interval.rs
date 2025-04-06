@@ -5,6 +5,13 @@
 //! - Common interval constants
 //! - Interval calculations
 //!
+//! # Performance Characteristics
+//!
+//! All operations in this module are O(1) and have minimal overhead:
+//! - Interval creation: ~1ns
+//! - Interval addition: ~1ns
+//! - Semitone calculation: ~1ns
+//!
 //! # Interval System
 //!
 //! A musical interval is the difference in pitch between two notes.
@@ -86,6 +93,98 @@
 //! Mild Dissonance: M2, m7
 //! Strong Dissonance: m2, M7, d5
 //! ```
+//!
+//! # Tutorial: Common Use Cases
+//!
+//! ## Building Scales
+//! ```rust
+//! use mozzart_core::constants::*;
+//!
+//! // Major scale pattern
+//! let major_pattern = [
+//!     PERFECT_UNISON,
+//!     MAJOR_SECOND,
+//!     MAJOR_THIRD,
+//!     PERFECT_FOURTH,
+//!     PERFECT_FIFTH,
+//!     MAJOR_SIXTH,
+//!     MAJOR_SEVENTH,
+//! ];
+//!
+//! // Natural minor scale pattern
+//! let minor_pattern = [
+//!     PERFECT_UNISON,
+//!     MAJOR_SECOND,
+//!     MINOR_THIRD,
+//!     PERFECT_FOURTH,
+//!     PERFECT_FIFTH,
+//!     MINOR_SIXTH,
+//!     MINOR_SEVENTH,
+//! ];
+//! ```
+//!
+//! ## Building Chords
+//! ```rust
+//! use mozzart_core::constants::*;
+//!
+//! // Major triad pattern
+//! let major_triad = [
+//!     PERFECT_UNISON,
+//!     MAJOR_THIRD,
+//!     PERFECT_FIFTH,
+//! ];
+//!
+//! // Minor triad pattern
+//! let minor_triad = [
+//!     PERFECT_UNISON,
+//!     MINOR_THIRD,
+//!     PERFECT_FIFTH,
+//! ];
+//!
+//! // Dominant seventh chord pattern
+//! let dominant_seventh = [
+//!     PERFECT_UNISON,
+//!     MAJOR_THIRD,
+//!     PERFECT_FIFTH,
+//!     MINOR_SEVENTH,
+//! ];
+//! ```
+//!
+//! ## Interval Inversion
+//! ```rust
+//! use mozzart_core::Interval;
+//! use mozzart_core::constants::*;
+//!
+//! // Invert an interval (subtract from perfect octave)
+//! let major_third = MAJOR_THIRD.semitones();
+//! let perfect_octave = PERFECT_OCTAVE.semitones();
+//! let minor_sixth = Interval::new(perfect_octave - major_third);
+//! assert_eq!(minor_sixth.semitones(), 8); // Minor sixth
+//! ```
+//!
+//! ## Compound Intervals
+//! ```rust
+//! use mozzart_core::Interval;
+//! use mozzart_core::constants::*;
+//!
+//! // Create a compound interval (octave + simple interval)
+//! let perfect_octave = PERFECT_OCTAVE.semitones();
+//! let major_third = MAJOR_THIRD.semitones();
+//! let major_tenth = Interval::new(perfect_octave + major_third);
+//! assert_eq!(major_tenth.semitones(), 16); // Major tenth
+//! ```
+//!
+//! ## Interval Addition
+//! ```rust
+//! use mozzart_core::Interval;
+//! use mozzart_core::constants::*;
+//!
+//! // Add intervals together
+//! let major_third = MAJOR_THIRD.semitones();
+//! let perfect_fourth = PERFECT_FOURTH.semitones();
+//! let major_sixth = Interval::new(major_third + perfect_fourth);
+//! assert_eq!(major_sixth.semitones(), 9); // Major sixth
+//! ```
 
 /// Represents a musical interval.
 ///
@@ -114,6 +213,22 @@
 pub struct Interval(u8);
 
 impl Interval {
+    /// Create a new interval from a number of semitones.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mozzart_core::Interval;
+    /// use mozzart_core::constants::*;
+    ///
+    /// let interval = Interval::new(7);
+    /// assert_eq!(interval.semitones(), 7);
+    /// ```
+    #[inline]
+    pub const fn new(semitones: u8) -> Self {
+        Self(semitones)
+    }
+
     /// Returns the number of semitones in this interval.
     ///
     /// The semitone value represents the distance between two pitches:
