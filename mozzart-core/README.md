@@ -59,6 +59,88 @@ let e4 = c4.transpose(MAJOR_THIRD);
 assert_eq!(e4, E4);
 ```
 
+#### Building Patterns from a Pitch
+
+```rust
+use mozzart_core::*;
+use mozzart_core::constants::*;
+
+// Create a major scale pattern using absolute distances from root
+let major_pattern = vec![
+    PERFECT_UNISON,    // Root
+    MAJOR_SECOND,      // 2 semitones from root
+    MAJOR_THIRD,       // 4 semitones from root
+    PERFECT_FOURTH,    // 5 semitones from root
+    PERFECT_FIFTH,     // 7 semitones from root
+    MAJOR_SIXTH,       // 9 semitones from root
+    MAJOR_SEVENTH,     // 11 semitones from root
+];
+
+// Apply the pattern to different roots
+let c_major = C4.apply_pattern(major_pattern.clone());
+let g_major = G4.apply_pattern(major_pattern);
+
+// Create a pentatonic scale pattern using absolute distances
+let pentatonic_pattern = vec![
+    PERFECT_UNISON,    // Root
+    MAJOR_SECOND,      // 2 semitones from root
+    MAJOR_THIRD,       // 4 semitones from root
+    PERFECT_FIFTH,     // 7 semitones from root
+    MAJOR_SIXTH,       // 9 semitones from root
+];
+
+// Apply the pattern to create a pentatonic scale
+let c_pentatonic = C4.apply_pattern(pentatonic_pattern);
+
+// Create a blues scale pattern using absolute distances
+let blues_pattern = vec![
+    PERFECT_UNISON,    // Root
+    MINOR_THIRD,       // 3 semitones from root
+    PERFECT_FOURTH,    // 5 semitones from root
+    DIMINISHED_FIFTH,  // 6 semitones from root
+    PERFECT_FIFTH,     // 7 semitones from root
+    MINOR_SEVENTH,     // 10 semitones from root
+];
+
+// Apply the pattern to create a blues scale
+let c_blues = C4.apply_pattern(blues_pattern);
+
+// Create a chord pattern (major triad) using absolute distances
+let major_triad_pattern = vec![
+    PERFECT_UNISON,    // Root
+    MAJOR_THIRD,       // 4 semitones from root
+    PERFECT_FIFTH,     // 7 semitones from root
+];
+
+// Apply the pattern to create a major triad
+let c_major_triad = C4.apply_pattern(major_triad_pattern);
+
+// Create a seventh chord pattern using absolute distances
+let seventh_chord_pattern = vec![
+    PERFECT_UNISON,    // Root
+    MAJOR_THIRD,       // 4 semitones from root
+    PERFECT_FIFTH,     // 7 semitones from root
+    MINOR_SEVENTH,     // 10 semitones from root
+];
+
+// Apply the pattern to create a dominant seventh chord
+let c_dominant_seventh = C4.apply_pattern(seventh_chord_pattern);
+
+// Create a modal pattern (Dorian mode) using absolute distances
+let dorian_pattern = vec![
+    PERFECT_UNISON,    // Root
+    MAJOR_SECOND,      // 2 semitones from root
+    MINOR_THIRD,       // 3 semitones from root
+    PERFECT_FOURTH,    // 5 semitones from root
+    PERFECT_FIFTH,     // 7 semitones from root
+    MAJOR_SIXTH,       // 9 semitones from root
+    MINOR_SEVENTH,     // 10 semitones from root
+];
+
+// Apply the pattern to create a Dorian scale
+let d_dorian = D4.apply_pattern(dorian_pattern);
+```
+
 #### Working with Intervals
 
 ```rust
@@ -70,36 +152,7 @@ assert_eq!(PERFECT_FIFTH.semitones(), 7);
 assert_eq!(MAJOR_THIRD.semitones(), 4);
 
 // Create custom intervals
-let custom_interval = Interval(3); // Minor third
-```
-
-#### Working with Scales
-
-```rust
-use mozzart_core::*;
-use mozzart_core::constants::*;
-
-// Create a C major scale
-let c_major = MajorScale::apply(C4);
-assert_eq!(c_major[0], C4);
-assert_eq!(c_major[1], D4);
-assert_eq!(c_major[2], E4);
-```
-
-#### Working with Chords
-
-```rust
-use mozzart_core::*;
-use mozzart_core::constants::*;
-
-// Create a C major triad
-let root = C4;
-let major_third = root.transpose(MAJOR_THIRD);
-let perfect_fifth = root.transpose(PERFECT_FIFTH);
-
-// The notes of a C major triad are C, E, G
-assert_eq!(major_third, E4);
-assert_eq!(perfect_fifth, G4);
+let custom_interval = Interval::new(3); // Minor third
 ```
 
 ## Performance
