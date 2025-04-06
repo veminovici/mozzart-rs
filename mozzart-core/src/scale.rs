@@ -238,32 +238,9 @@ pub trait ScalePattern {
     /// ```
     #[inline]
     fn apply(root: Pitch) -> Scale<Self::ScaleTyp> {
-        let pitches = apply_pattern(root, Self::PATTERN);
+        let pitches = root.apply_pattern(Self::PATTERN);
         Scale::<Self::ScaleTyp>::new(pitches)
     }
-}
-
-/// Applies a scale pattern to a root pitch.
-///
-/// This function generates a sequence of pitches by applying the given
-/// interval pattern to the root pitch.
-///
-/// # Notes
-///
-/// This function is not generic over the scale type, but over the pattern.
-/// This is because the scale type is part of the scale pattern.
-fn apply_pattern<P>(root: Pitch, pattern: P) -> Vec<Pitch>
-where
-    P: IntoIterator<Item = Interval>,
-{
-    let mut pitches = Vec::new();
-
-    for interval in pattern.into_iter() {
-        let pitch = root.transpose(interval);
-        pitches.push(pitch);
-    }
-
-    pitches
 }
 
 /// A musical scale.
@@ -458,14 +435,6 @@ mod tests {
         type Pattern = [Interval; 2];
         const PATTERN: Self::Pattern = [MAJOR_SECOND, PERFECT_FOURTH];
         type ScaleTyp = MyScaleType;
-    }
-
-    #[test]
-    fn test_apply_pattern() {
-        let pattern = [MAJOR_SECOND, PERFECT_FOURTH];
-        let root = C4;
-        let scale = apply_pattern(root, pattern);
-        assert_eq!(scale, [D4, F4]);
     }
 
     #[test]

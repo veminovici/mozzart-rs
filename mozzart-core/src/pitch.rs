@@ -361,6 +361,16 @@ impl Pitch {
     pub const fn transpose(&self, interval: Interval) -> Pitch {
         Pitch(self.semitones() + interval.semitones())
     }
+
+    pub fn apply_pattern<P>(&self, pattern: P) -> Vec<Pitch>
+    where
+        P: IntoIterator<Item = Interval>,
+    {
+        pattern
+            .into_iter()
+            .map(|interval| self.transpose(interval))
+            .collect()
+    }
 }
 
 macro_rules! generate_octave_pitches {
@@ -610,5 +620,12 @@ mod tests {
         assert_eq!(CSHARP2.with_octave(O5), CSHARP5);
         assert_eq!(D3.with_octave(O6), D6);
         assert_eq!(DSHARP4.with_octave(O7), DSHARP7);
+    }
+
+    #[test]
+    fn test_apply_pattern() {
+        let pattern = [MAJOR_SECOND, PERFECT_FOURTH];
+        let scale = C4.apply_pattern(pattern);
+        assert_eq!(scale, [D4, F4]);
     }
 }
