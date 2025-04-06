@@ -2,8 +2,8 @@
 members = [
     "mozzart-core",
     "mozzart-scales",
-    "mozzart-chords"
-]
+    "mozzart-chords", 
+    "mozzart-ply"]
 resolver = "3"
 
 [workspace.package]

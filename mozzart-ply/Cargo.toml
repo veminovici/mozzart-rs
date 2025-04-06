@@ -1,0 +1,10 @@
+[package]
+name = "mozzart-ply"
+version = "0.1.0"
+edition = "2024"
+authors = ["Vlad Eminovici <veminovici@hotmail.com>"]
+description = "A Rust music theory library for pattern-based composition"
+license = "MIT"
+repository = "https://github.com/yourusername/mozzart-rs"
+
+[dependencies] 
