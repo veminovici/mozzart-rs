@@ -26,11 +26,11 @@ pub trait ScaleType {
     fn name() -> &'static str;
 }
 
-pub trait ScalePattern: Pattern {
+pub trait ScalePattern: Pattern<Distance = Interval> {
     type Type: ScaleType;
 
     fn to_scale(root: Pitch) -> Scale<Self::Type> {
-        let pitches = MajorScalePattern::apply(root);
+        let pitches = Self::apply(root);
         Scale::<Self::Type>::new(pitches)
     }
 }
