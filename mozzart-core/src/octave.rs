@@ -67,6 +67,8 @@
 use std::fmt;
 
 use crate::Pitch;
+use crate::constants::*;
+
 /// Represents a musical octave.
 ///
 /// An octave is the interval between one musical pitch and another with double its frequency.
@@ -155,7 +157,7 @@ impl Octave {
     /// use mozzart_core::constants::*;
     /// use mozzart_core::Pitch;
     ///
-    /// let pitch = OC.update_pitch(C);
+    /// let pitch = O0.update_octave(C);
     /// assert_eq!(pitch, C0);
     /// ```
     #[inline]
@@ -172,13 +174,31 @@ impl Octave {
     /// use mozzart_core::constants::*;
     /// use mozzart_core::Pitch;
     ///
-    /// let pitch = OC.to_pitch(C);
+    /// let pitch = O0.to_pitch(C);
     /// assert_eq!(pitch, C0);
     /// ```
     #[inline]
     pub const fn to_pitch(self, canonical: Pitch) -> Pitch {
         assert!(canonical.is_canonical());
         canonical.with_octave(self)
+    }
+
+    /// Returns an array of pitches for the given octave.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mozzart_core::Octave;
+    /// use mozzart_core::constants::*;
+    /// use mozzart_core::Pitch;
+    ///
+    /// let pitches = O4.pitches();
+    /// assert_eq!(pitches[0], C4);
+    /// assert_eq!(pitches[11], B4);
+    /// ```
+    #[inline]
+    pub fn pitches(self) -> [Pitch; crate::constants::SEMITONES_PER_OCTAVE as usize] {
+        PITCHES.map(|pitch| self.to_pitch(pitch))
     }
 }
 
@@ -231,8 +251,6 @@ pub mod constants {
 
 #[cfg(test)]
 mod tests {
-    use crate::constants::*;
-
     use super::*;
 
     #[test]
@@ -257,5 +275,12 @@ mod tests {
     fn test_to_pitch() {
         let pitch = O4.to_pitch(C);
         assert_eq!(pitch, C4);
+    }
+
+    #[test]
+    fn test_pitches() {
+        let pitches = O4.pitches();
+        assert_eq!(pitches[0], C4);
+        assert_eq!(pitches[11], B4);
     }
 }
