@@ -64,13 +64,26 @@ impl ScalePattern for MajorScalePattern {
 pub struct Pitch(u8);
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Interval(i8);
+pub struct Interval(u8);
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+pub struct Octave(i8);
 
 impl Transposable<Interval> for Pitch {
     type Output = Pitch;
 
     fn transpose(&self, other: Interval) -> Self::Output {
-        Pitch(self.0 + other.0 as u8)
+        let semitones = self.0 + other.0;
+        Pitch(semitones)
+    }
+}
+
+impl Transposable<Octave> for Pitch {
+    type Output = Pitch;
+
+    fn transpose(&self, other: Octave) -> Self::Output {
+        let semitones = self.0 as i8 + other.0 * 12;
+        Pitch(semitones as u8)
     }
 }
 
