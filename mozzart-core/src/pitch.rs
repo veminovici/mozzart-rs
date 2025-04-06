@@ -316,6 +316,84 @@ impl fmt::Display for Pitch {
 mod tests {
     use super::*;
     use crate::constants::*;
+    use proptest::prelude::*;
+
+    // Property-based tests for Pitch
+    proptest! {
+        #[test]
+        fn test_pitch_semitones_roundtrip(pitch in prop::sample::select(&[
+            C4, CSHARP4, D4, DSHARP4, E4, F4, FSHARP4, G4, GSHARP4, A4, ASHARP4, B4,
+            C5, CSHARP5, D5, DSHARP5, E5, F5, FSHARP5, G5, GSHARP5, A5, ASHARP5, B5
+        ])) {
+            let semitones = pitch.semitones();
+            prop_assert_eq!(pitch.semitones(), semitones);
+        }
+
+        #[test]
+        fn test_pitch_transposition_commutative(
+            pitch in prop::sample::select(&[
+                C4, CSHARP4, D4, DSHARP4, E4, F4, FSHARP4, G4, GSHARP4, A4, ASHARP4, B4
+            ]),
+            interval1 in prop::sample::select(&[
+                PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH,
+                PERFECT_FIFTH, MAJOR_SIXTH, MAJOR_SEVENTH, PERFECT_OCTAVE
+            ]),
+            interval2 in prop::sample::select(&[
+                PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH,
+                PERFECT_FIFTH, MAJOR_SIXTH, MAJOR_SEVENTH, PERFECT_OCTAVE
+            ])
+        ) {
+            let transposed1 = pitch.transpose(interval1).transpose(interval2);
+            let transposed2 = pitch.transpose(interval2).transpose(interval1);
+            prop_assert_eq!(transposed1, transposed2);
+        }
+
+        #[test]
+        fn test_pitch_transposition_associative(
+            pitch in prop::sample::select(&[
+                C4, CSHARP4, D4, DSHARP4, E4, F4, FSHARP4, G4, GSHARP4, A4, ASHARP4, B4
+            ])
+        ) {
+            // Test that transposing by MAJOR_SECOND + MAJOR_THIRD is the same as transposing by PERFECT_FOURTH
+            let transposed1 = pitch
+                .transpose(MAJOR_SECOND)
+                .transpose(MAJOR_THIRD);
+            let transposed2 = pitch
+                .transpose(DIMINISHED_FIFTH);
+            prop_assert_eq!(transposed1, transposed2);
+
+            // Test that transposing by MAJOR_THIRD + PERFECT_FOURTH is the same as transposing by MAJOR_SIXTH
+            let transposed3 = pitch
+                .transpose(MAJOR_THIRD)
+                .transpose(PERFECT_FOURTH);
+            let transposed4 = pitch
+                .transpose(MAJOR_SIXTH);
+            prop_assert_eq!(transposed3, transposed4);
+        }
+
+        #[test]
+        fn test_pitch_canonical_form(pitch in prop::sample::select(&[
+            C4, CSHARP4, D4, DSHARP4, E4, F4, FSHARP4, G4, GSHARP4, A4, ASHARP4, B4
+        ])) {
+            let canonical = pitch.canonical();
+            prop_assert!(canonical.is_canonical());
+            prop_assert_eq!(canonical.semitones() % SEMITONES_PER_OCTAVE, pitch.semitones() % SEMITONES_PER_OCTAVE);
+        }
+
+        #[test]
+        fn test_pitch_transposition_bounds(
+            pitch in prop::sample::select(&[
+                C4, CSHARP4, D4, DSHARP4, E4, F4, FSHARP4, G4, GSHARP4, A4, ASHARP4, B4
+            ]),
+            interval in prop::sample::select(&[
+                PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH,
+                PERFECT_FIFTH, MAJOR_SIXTH, MAJOR_SEVENTH, PERFECT_OCTAVE
+            ])
+        ) {
+            let transposed = pitch.transpose(interval);
+            prop_assert!(transposed.semitones() <= 127);
+        }
+    }
 
     fn test_pitches(
         pitches: [Pitch; crate::constants::SEMITONES_PER_OCTAVE as usize],

@@ -1,4 +1,4 @@
-use criterion::{black_box, criterion_group, criterion_main, Criterion};
+use criterion::{Criterion, black_box, criterion_group, criterion_main};
 use mozzart_core::constants::*;
 
 fn octave_benchmarks(c: &mut Criterion) {
