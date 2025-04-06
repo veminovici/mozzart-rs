@@ -65,6 +65,8 @@
 //! ```
 
 use std::fmt;
+
+use crate::Pitch;
 /// Represents a musical octave.
 ///
 /// An octave is the interval between one musical pitch and another with double its frequency.
@@ -106,6 +108,24 @@ impl Octave {
         Self(value)
     }
 
+    /// Returns the value of this octave.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mozzart_core::Octave;
+    /// use mozzart_core::constants::*;
+    ///
+    /// assert_eq!(OC.value(), -1);
+    /// assert_eq!(O0.value(), 0);
+    /// assert_eq!(O4.value(), 4);
+    /// assert_eq!(O9.value(), 9);
+    /// ```
+    #[inline]
+    pub const fn value(&self) -> i8 {
+        self.0
+    }
+
     /// Returns whether this octave is canonical.
     ///
     /// A canonical octave is one that is negative (less than 0).
@@ -124,6 +144,41 @@ impl Octave {
     #[inline]
     pub const fn is_canonical(&self) -> bool {
         self.0 < 0
+    }
+
+    /// Returns a pitch with the given octave.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mozzart_core::Octave;
+    /// use mozzart_core::constants::*;
+    /// use mozzart_core::Pitch;
+    ///
+    /// let pitch = OC.update_pitch(C);
+    /// assert_eq!(pitch, C0);
+    /// ```
+    #[inline]
+    pub const fn update_octave(self, pitch: Pitch) -> Pitch {
+        pitch.with_octave(self)
+    }
+
+    /// Returns a pitch with the given octave.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mozzart_core::Octave;
+    /// use mozzart_core::constants::*;
+    /// use mozzart_core::Pitch;
+    ///
+    /// let pitch = OC.to_pitch(C);
+    /// assert_eq!(pitch, C0);
+    /// ```
+    #[inline]
+    pub const fn to_pitch(self, canonical: Pitch) -> Pitch {
+        assert!(canonical.is_canonical());
+        canonical.with_octave(self)
     }
 }
 
@@ -176,6 +231,8 @@ pub mod constants {
 
 #[cfg(test)]
 mod tests {
+    use crate::constants::*;
+
     use super::*;
 
     #[test]
@@ -188,5 +245,17 @@ mod tests {
                 assert!(!octave.is_canonical());
             }
         }
+    }
+
+    #[test]
+    fn test_update_octave() {
+        let pitch = O4.update_octave(C1);
+        assert_eq!(pitch, C4);
+    }
+
+    #[test]
+    fn test_to_pitch() {
+        let pitch = O4.to_pitch(C);
+        assert_eq!(pitch, C4);
     }
 }

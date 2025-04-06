@@ -224,6 +224,43 @@ impl Pitch {
         Self(semitones)
     }
 
+    /// Create a new pitch from a canonical pitch class and octave.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mozzart_core::Pitch;
+    /// use mozzart_core::constants::*;
+    ///
+    /// let pitch = Pitch::from_canonical(C, O4);
+    /// assert_eq!(pitch, C4);
+    /// ```
+    #[inline]
+    pub const fn from_canonical(self, octave: Octave) -> Self {
+        assert!(self.is_canonical());
+        let semitone =
+            self.semitones() + (octave.value() + 1) as u8 * crate::constants::SEMITONES_PER_OCTAVE;
+        Self(semitone)
+    }
+
+    /// Create a new pitch from a canonical pitch class and octave.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use mozzart_core::Pitch;
+    /// use mozzart_core::constants::*;
+    ///
+    /// let pitch = C4.with_octave(O5);
+    /// assert_eq!(pitch, C5);
+    /// ```
+    #[inline]
+    pub const fn with_octave(self, octave: Octave) -> Self {
+        let semitone = self.canonical().semitones()
+            + (octave.value() + 1) as u8 * crate::constants::SEMITONES_PER_OCTAVE;
+        Self(semitone)
+    }
+
     /// Returns the semitone value of this pitch.
     ///
     /// The semitone value is the MIDI note number, where:
@@ -557,5 +594,21 @@ mod tests {
         assert_eq!(A4.to_string(), "A4");
         assert_eq!(ASHARP4.to_string(), "A#4");
         assert_eq!(B4.to_string(), "B4");
+    }
+
+    #[test]
+    fn test_from_canonical() {
+        assert_eq!(C.from_canonical(O4), C4);
+        assert_eq!(CSHARP.from_canonical(O4), CSHARP4);
+        assert_eq!(D.from_canonical(O5), D5);
+        assert_eq!(DSHARP.from_canonical(O6), DSHARP6);
+    }
+
+    #[test]
+    fn test_with_octave() {
+        assert_eq!(C1.with_octave(O4), C4);
+        assert_eq!(CSHARP2.with_octave(O5), CSHARP5);
+        assert_eq!(D3.with_octave(O6), D6);
+        assert_eq!(DSHARP4.with_octave(O7), DSHARP7);
     }
 }
