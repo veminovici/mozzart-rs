@@ -22,9 +22,8 @@
 //!
 //! Basic chord operations:
 //! ```rust
-//! use mozzart_core::chord::*;
-//! use mozzart_core::interval::constants::*;
-//! use mozzart_core::pitch::constants::*;
+//! use mozzart_core::*;
+//! use mozzart_core::constants::*;
 //!
 //! // Create a C major triad
 //! let root = C4;
@@ -64,7 +63,7 @@ use crate::Interval;
 /// # Examples
 ///
 /// ```rust
-/// use mozzart_core::chord::ChordType;
+/// use mozzart_core::ChordType;
 ///
 /// struct Major;
 /// impl ChordType for Major {}
@@ -85,7 +84,7 @@ pub trait ChordType {}
 ///
 /// ```rust
 /// use mozzart_core::{Interval, ChordPattern, ChordType};
-/// use mozzart_core::interval::constants::*;
+/// use mozzart_core::constants::*;
 ///
 /// struct MajorTriadType;
 /// impl ChordType for MajorTriadType {}

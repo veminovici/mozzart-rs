@@ -23,7 +23,7 @@
 //!
 //! Basic scale operations:
 //! ```rust
-//! use mozzart_core::{Interval, Pitch, ScalePattern, ScaleType};
+//! use mozzart_core::{Interval, Pitch, Scale,ScalePattern, ScaleType};
 //! use mozzart_core::constants::*;
 //!
 //! pub struct MajorScaleType;
@@ -65,7 +65,7 @@
 //!
 //! Working with different scale types:
 //! ```rust
-//! use mozzart_core::scale::{ScalePattern, ScaleType};
+//! use mozzart_core::{Scale, ScalePattern, ScaleType};
 //! use mozzart_core::constants::*;
 //!
 //! ```
@@ -118,7 +118,7 @@ use crate::{Interval, Pitch};
 /// # Examples
 ///
 /// ```rust
-/// use mozzart_core::scale::ScaleType;
+/// use mozzart_core::ScaleType;
 ///
 /// struct MajorScaleType;
 /// impl ScaleType for MajorScaleType {
@@ -277,8 +277,8 @@ where
 ///
 /// Creating and using a major scale:
 /// ```rust
-/// use mozzart_core::scale::*;
-/// use mozzart_core::pitch::constants::*;
+/// use mozzart_core::{Pitch, Scale, ScaleType};
+/// use mozzart_core::constants::*;
 ///
 /// // Define a major scale type
 /// struct MajorScaleType;
@@ -304,8 +304,8 @@ where
 ///
 /// Working with different scale types:
 /// ```rust
-/// use mozzart_core::scale::*;
-/// use mozzart_core::pitch::constants::*;
+/// use mozzart_core::{Pitch, Scale, ScaleType};
+/// use mozzart_core::constants::*;
 ///
 /// // Define a minor scale type
 /// struct MinorScaleType;
@@ -369,8 +369,8 @@ impl<S: ScaleType> Scale<S> {
     /// # Examples
     ///
     /// ```rust
-    /// use mozzart_core::scale::*;
-    /// use mozzart_core::pitch::constants::*;
+    /// use mozzart_core::*;
+    /// use mozzart_core::constants::*;
     ///
     /// struct MajorScaleType;
     /// impl ScaleType for MajorScaleType {
@@ -397,8 +397,8 @@ impl<S: ScaleType> Scale<S> {
     /// # Examples
     ///
     /// ```rust
-    /// use mozzart_core::scale::*;
-    /// use mozzart_core::pitch::constants::*;
+    /// use mozzart_core::{Pitch, Scale, ScaleType};
+    /// use mozzart_core::constants::*;
     ///
     /// struct MajorScaleType;
     /// impl ScaleType for MajorScaleType {

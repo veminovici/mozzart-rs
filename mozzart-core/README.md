@@ -44,8 +44,8 @@ mozzart-core = "0.1.0"
 #### Working with Pitches
 
 ```rust
-use mozzart_core::pitch::constants::*;
-use mozzart_core::interval::constants::*;
+use mozzart_core::*;
+use mozzart_core::constants::*;
 
 // Create a pitch
 let c4 = C4;
@@ -62,7 +62,8 @@ assert_eq!(e4, E4);
 #### Working with Intervals
 
 ```rust
-use mozzart_core::interval::constants::*;
+use mozzart_core::*;
+use mozzart_core::constants::*;
 
 // Use predefined intervals
 assert_eq!(PERFECT_FIFTH.semitones(), 7);
@@ -75,8 +76,8 @@ let custom_interval = Interval(3); // Minor third
 #### Working with Scales
 
 ```rust
-use mozzart_core::scale::*;
-use mozzart_core::pitch::constants::*;
+use mozzart_core::*;
+use mozzart_core::constants::*;
 
 // Create a C major scale
 let c_major = MajorScale::apply(C4);
@@ -88,9 +89,8 @@ assert_eq!(c_major[2], E4);
 #### Working with Chords
 
 ```rust
-use mozzart_core::chord::*;
-use mozzart_core::pitch::constants::*;
-use mozzart_core::interval::constants::*;
+use mozzart_core::*;
+use mozzart_core::constants::*;
 
 // Create a C major triad
 let root = C4;

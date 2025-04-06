@@ -1,5 +1,5 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use mozzart_core::interval::constants::*;
+use mozzart_core::constants::*;
 
 fn interval_benchmarks(c: &mut Criterion) {
     let mut group = c.benchmark_group("Interval Operations");

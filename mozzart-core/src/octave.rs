@@ -27,8 +27,8 @@
 //!
 //! Basic octave operations:
 //! ```rust
-//! use mozzart_core::octave::Octave;
-//! use mozzart_core::octave::constants::*;
+//! use mozzart_core::Octave;
+//! use mozzart_core::constants::*;
 //!
 //! // Create a new octave
 //! let octave = O4; // Middle C octave
@@ -76,8 +76,8 @@ use std::fmt;
 /// # Examples
 ///
 /// ```rust
-/// use mozzart_core::octave::Octave;
-/// use mozzart_core::octave::constants::*;
+/// use mozzart_core::Octave;
+/// use mozzart_core::constants::*;
 ///
 /// // Create a new octave
 /// let octave = O4; // Middle C octave
@@ -114,8 +114,8 @@ impl Octave {
     /// # Examples
     ///
     /// ```rust
-    /// use mozzart_core::octave::Octave;
-    /// use mozzart_core::octave::constants::*;
+    /// use mozzart_core::Octave;
+    /// use mozzart_core::constants::*;
     ///
     /// assert!(OC.is_canonical());
     /// assert!(!O0.is_canonical());

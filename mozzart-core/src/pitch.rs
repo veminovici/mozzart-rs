@@ -39,9 +39,8 @@
 //!
 //! Working with intervals:
 //! ```rust
-//! use mozzart_core::pitch::Pitch;
-//! use mozzart_core::pitch::constants::*;
-//! use mozzart_core::interval::constants::*;
+//! use mozzart_core::Pitch;
+//! use mozzart_core::constants::*;
 //!
 //! // Transpose a pitch by an interval
 //! let pitch = C4;
@@ -134,8 +133,8 @@ impl Pitch {
     /// # Examples
     ///
     /// ```rust
-    /// use mozzart_core::pitch::Pitch;
-    /// use mozzart_core::pitch::constants::*;
+    /// use mozzart_core::Pitch;
+    /// use mozzart_core::constants::*;
     ///
     /// assert_eq!(C4.semitones(), 60);
     /// assert_eq!(A4.semitones(), 69);
@@ -153,8 +152,8 @@ impl Pitch {
     /// # Examples
     ///
     /// ```rust
-    /// use mozzart_core::pitch::Pitch;
-    /// use mozzart_core::pitch::constants::*;
+    /// use mozzart_core::Pitch;
+    /// use mozzart_core::constants::*;
     ///
     /// assert_eq!(C4.canonical(), C);
     /// assert_eq!(C5.canonical(), C);
@@ -173,8 +172,8 @@ impl Pitch {
     /// # Examples
     ///
     /// ```rust
-    /// use mozzart_core::pitch::Pitch;
-    /// use mozzart_core::pitch::constants::*;
+    /// use mozzart_core::Pitch;
+    /// use mozzart_core::constants::*;
     ///
     /// assert!(C.is_canonical());
     /// assert!(!C4.is_canonical());
@@ -213,9 +212,8 @@ impl Pitch {
     /// # Examples
     ///
     /// ```rust
-    /// use mozzart_core::pitch::Pitch;
-    /// use mozzart_core::pitch::constants::*;
-    /// use mozzart_core::interval::constants::*;
+    /// use mozzart_core::Pitch;
+    /// use mozzart_core::constants::*;
     ///
     /// assert_eq!(C4.transpose(MAJOR_SECOND), D4);
     /// assert_eq!(C4.transpose(MAJOR_THIRD), E4);

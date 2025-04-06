@@ -31,7 +31,7 @@
 //!
 //! Basic interval operations:
 //! ```rust
-//! use mozzart_core::interval::Interval;
+//! use mozzart_core::Interval;
 //! use mozzart_core::constants::*;
 //!
 //! // Create an interval from semitones
@@ -47,8 +47,7 @@
 //!
 //! Working with intervals in scales:
 //! ```rust
-//! use mozzart_core::interval::constants::*;
-//! use mozzart_core::pitch::constants::*;
+//! use mozzart_core::constants::*;
 //!
 //! // Build a major triad
 //! let root = C4;
@@ -125,8 +124,8 @@ impl Interval {
     /// # Examples
     ///
     /// ```rust
-    /// use mozzart_core::interval::Interval;
-    /// use mozzart_core::interval::constants::*;
+    /// use mozzart_core::Interval;
+    /// use mozzart_core::constants::*;
     ///
     /// assert_eq!(PERFECT_UNISON.semitones(), 0);
     /// assert_eq!(PERFECT_FIFTH.semitones(), 7);
@@ -148,7 +147,7 @@ impl Interval {
 /// # Examples
 ///
 /// ```rust
-/// use mozzart_core::interval::constants::*;
+/// use mozzart_core::constants::*;
 ///
 /// // Perfect intervals
 /// assert_eq!(PERFECT_UNISON.semitones(), 0);
